@@ -39,7 +39,8 @@ struct ProfilePictureView: View {
             
         }
         .frame(maxWidth: .infinity ,maxHeight: .infinity)
-        .background(Color(.systemGroupedBackground))
+        .background(Color(.cyan))
+//        .background(Color(.systemGroupedBackground))
         .navigationBarHidden(true)
     }
     
@@ -62,27 +63,35 @@ struct ProfilePictureView: View {
             Image(systemName: "arrowtriangle.down.fill")
                 .resizable()
                 .FontForegroundColorModifier(15, .bold, .rounded, .standard, 15, 10, Color(.systemGray4))
-                .padding(.horizontal,10)
+//                .padding(.horizontal,10)
             
-            ScrollView(.horizontal){
-                HStack(spacing: 15) {
+            ScrollView(.horizontal,showsIndicators: false){
+                HStack(spacing: 0) {
                     ForEach(facesDataList,id: \.self) { face in
                         Text(face)
-                            .padding(20)
-                            .font(.system(size: 30))
-                            .FrameBackgroundColorModifier(nil, nil, Color("Primary"), 1, 50)
+                            .padding(25)
+                            .font(.system(size: 40))
+                            .FrameBackgroundColorModifier(nil, nil, Color("Primary"), 1, 20)
+                            .clipShape(Circle())
+                            .padding(.horizontal,5)
+                            .scrollTransition(.interactive.threshold(.centered)) { content, phase in
+                                content
+                                    .opacity(phase.isIdentity ? 1 : 0)
+                                    .scaleEffect(phase.isIdentity ? 1 : 0.3)
+                            }
+//                            .containerRelativeFrame(.horizontal, alignment: .center)
                         
                     }
                 }
-                .padding(.horizontal,160)
+                .padding(.horizontal,150)
             }
-            .scrollIndicators(.hidden)
+            .scrollTargetLayout()
+            .scrollTargetBehavior(.viewAligned)
             
             Image(systemName: "arrowtriangle.up.fill")
                 .resizable()
                 .FontForegroundColorModifier(15, .bold, .rounded, .standard, 15, 10, Color(.systemGray4))
-                .padding(.horizontal,10)
-            
+//                .padding(.horizontal,10)
             
         }
         .padding(.vertical)
